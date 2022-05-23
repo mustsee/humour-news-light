@@ -3,7 +3,7 @@ export default {
   target: 'static',
 
   router: {
-    base: "humour-news-light"
+    base: "/humour-news-light/"
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
