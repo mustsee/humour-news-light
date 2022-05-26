@@ -3,9 +3,11 @@
     <div class="first-line flex">
       <div 
         @click="playVideo(link.url)"
-        class="w-5 flex justify-center text-gray-600 hover:text-gray-500 cursor-pointer"
+        class="w-6 flex justify-center items-center text-gray-600 hover:text-gray-500 cursor-pointer"
       >
-          &#9658;
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="h-4">
+          <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-3 18v-12l10 6-10 6z"/>
+        </svg>
       </div>
       <div class="rank info-color w-5 mr-1 text-right">
         {{ index }}<span>.</span>
