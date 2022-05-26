@@ -1,18 +1,30 @@
 <template>
   <div class="item mx-2 mb-1">
     <div class="first-line flex">
+      <div 
+        @click="playVideo(link.url)"
+        class="w-5 flex justify-center text-gray-600 hover:text-gray-500 cursor-pointer"
+      >
+          &#9658;
+      </div>
       <div class="rank info-color w-5 mr-1 text-right">
         {{ index }}<span>.</span>
       </div>
       <!-- <div class="upvote info-color mx-1" title="vote">&#9650;</div> -->
       <div class="title">
         <!-- https://web.dev/external-anchors-use-rel-noopener/?utm_source=lighthouse&utm_medium=devtools -->
-        <a
+        <!-- <a
           :href="link.url"
           target="_blank"
           rel="noopener"
           >{{ link.title }}</a
+        > -->
+        <span 
+          @click="playVideo(link.url)"
+          class="cursor-pointer"
         >
+          {{ link.title }}
+        </span>
         <span class="info-color mr-1 text-xs">{{
           link.source ? "(" + link.source + ")" : ""
         }}</span>
@@ -36,7 +48,8 @@ import { formatDate, timeSince } from "@/helpers";
 export default {
   props: {
     link: Object,
-    index: Number
+    index: Number,
+    playVideo: Function,
   },
   methods: {
     getTimeSince(date) {
