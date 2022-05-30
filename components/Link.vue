@@ -1,12 +1,22 @@
 <template>
   <div class="item mx-2 mb-1">
     <div class="first-line flex">
-      <div 
+      <div
+        v-if="link.url != currentVideoPlaying" 
         @click="playVideo(link.url)"
-        class="w-6 h-6 flex justify-center items-center text-gray-600 hover:text-gray-500 cursor-pointer"
+        class="w-6 h-6 flex justify-center items-center text-gray-600 cursor-pointer"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="h-4">
           <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-3 18v-12l10 6-10 6z"/>
+        </svg>
+      </div>
+      <div
+        v-else 
+        @click="stopVideo"
+        class="w-6 h-6 flex justify-center items-center text-gray-600 cursor-pointer"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="h-4">
+          <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 17h-10v-10h10v10z"/>
         </svg>
       </div>
       <div class="rank info-color w-5 mr-1 text-right">
@@ -45,6 +55,8 @@ export default {
     link: Object,
     index: Number,
     playVideo: Function,
+    stopVideo: Function,
+    currentVideoPlaying: String,
   },
   methods: {
     getTimeSince(date) {
