@@ -16,13 +16,13 @@
         </div>
       </div>
       <div class="right p-0.5">
-         <template v-if="currentUser">
-            <span class="mx-2">
-              {{ currentUser.displayName }}
-            </span>
-            <span class="mx-2 underline focus:outline-none cursor-pointer" @click="handleLogout">
-              logout
-            </span>
+        <template v-if="currentUser">
+          <span class="mx-2">
+            {{ currentUser.displayName }}
+          </span>
+          <span class="mx-2 underline focus:outline-none cursor-pointer" @click="handleLogout">
+            logout
+          </span>
         </template>
         <template v-else>
           <nuxt-link class="mx-2 underline focus:outline-none cursor-pointer" :to="'/login'">

@@ -12,7 +12,6 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)
 }
 
-
 export const authProviders = {
   Google: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
 }

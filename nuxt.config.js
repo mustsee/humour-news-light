@@ -6,6 +6,10 @@ export default {
     /* base: "/humour-news-light/" */
   },
 
+  loading: {
+    color: '#00bfff'
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Humour News',
