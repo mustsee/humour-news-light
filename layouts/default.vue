@@ -35,6 +35,7 @@
     <!-- Page Content -->
     <main class="bg-color-main md:w-10/12 md:mx-auto pb-3">
       <div class="h-3"></div>
+      <div v-if="$nuxt.isOffline" class="mb-3 font-semibold text-center">You are offline</div>
       <Nuxt />
     </main>
   </div>

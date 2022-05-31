@@ -26,13 +26,9 @@
 </template>
 
 <script>
-import LinkItem from "/components/Link.vue";
 import { firedB } from '/plugins/firebase.js'
 
 export default {
-  components: {
-    Link: LinkItem
-  },
   data() {
     return {
       currentVideo: "",
