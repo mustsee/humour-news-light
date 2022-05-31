@@ -36,28 +36,34 @@ export default {
   data() {
     return {
       currentVideo: "",
+      links: [],
       error: null,
       videoPlayerBottom: true
     };
-  },
-  async asyncData() {
-    try {
-      const collection = await firedB.collection('links').orderBy('published_at', 'desc').limit(30).get()
-      let links = []
-      collection.forEach(doc => {
-        links.push(doc.data())
-      })
-      return { links }
-    } catch (error) {
-      this.error = true // TODO: handle in code
-      console.log("Error getting documents: ", error);
-    }
-   
   },
   methods: {
     playVideo(url) {
       this.currentVideo = url;
     },
+    loadLinks() {
+      firedB.collection('links')
+        .orderBy('published_at', 'desc')
+        .limit(30)
+        .get()
+        .then((querySnapshot) => {
+          let res = []
+          querySnapshot.forEach((doc) => {
+            res.push(doc.data())
+          });
+          this.links = res
+        }).catch((error) => {
+          this.error = true // TODO: handle in code
+          console.log("Error getting documents: ", error);
+        });
+    },
   },
+  async mounted() {
+    this.loadLinks() // Put this API call to make it SSR
+  }
 };
 </script>
