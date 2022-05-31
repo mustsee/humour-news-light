@@ -1,6 +1,5 @@
 <template>
   <div class="center md:pt-2">
-    <!-- Page Heading -->
     <header
       class="top h-10 md:w-10/12 md:mx-auto md:h-6 bg-light-blue leading-5 flex items-center justify-between"
     >
@@ -16,7 +15,21 @@
           </div>
         </div>
       </div>
-      <div class="right p-0.5"></div>
+      <div class="right p-0.5">
+         <template v-if="currentUser">
+            <span class="mx-2">
+              {{ currentUser.displayName }}
+            </span>
+            <span class="mx-2 underline focus:outline-none cursor-pointer" @click="handleLogout">
+              logout
+            </span>
+        </template>
+        <template v-else>
+          <nuxt-link class="mx-2 underline focus:outline-none cursor-pointer" :to="'/login'">
+            login
+          </nuxt-link> 
+        </template>
+      </div>
     </header>
 
     <!-- Page Content -->
@@ -26,6 +39,21 @@
     </main>
   </div>
 </template>
+
+<script>
+export default {
+  computed: {
+    currentUser() {
+      return this.$store.state.user
+    }
+  },
+  methods: {
+    handleLogout() {
+      this.$store.dispatch('signOut')
+    }
+  }
+}
+</script>
 
 <style scoped>
 .bg-color-main {

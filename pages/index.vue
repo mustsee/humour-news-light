@@ -27,7 +27,7 @@
 
 <script>
 import LinkItem from "/components/Link.vue";
-import db from '/plugins/firebase.js'
+import { firedB } from '/plugins/firebase.js'
 
 export default {
   components: {
@@ -46,7 +46,7 @@ export default {
       this.currentVideo = url;
     },
     loadLinks() {
-      db.collection('links')
+      firedB.collection('links')
         .orderBy('published_at', 'desc')
         .limit(30)
         .get()
