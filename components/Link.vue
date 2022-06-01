@@ -2,8 +2,8 @@
   <div class="item mx-2 mb-1">
     <div class="first-line flex">
       <div
-        v-if="link.url != currentVideoPlaying" 
-        @click="playVideo(link.url)"
+        v-if="link.videoId != currentVideoPlaying" 
+        @click="playVideo(link.videoId)"
         class="w-6 h-6 flex justify-center items-center text-gray-600 cursor-pointer"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="h-4">
@@ -25,8 +25,8 @@
       <!-- <div class="upvote info-color mx-1" title="vote">&#9650;</div> -->
       <div class="title">
         <span 
-          @click="playVideo(link.url)"
-          class="cursor-pointer"
+          @click="playVideo(link.videoId)"
+          class="cursor-pointer text-neutral-500"
         >
           {{ link.title }}
         </span>

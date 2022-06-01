@@ -10,7 +10,14 @@
       >
         move window to {{ videoPlayerBottom ? 'top' : 'bottom' }}
       </figcaption>
-      <iframe width="356" height="200" :src="currentVideo + '?autoplay=1&&enablejsapi=1'" allow="autoplay" frameborder="0"></iframe>
+      <iframe 
+        width="356" 
+        height="200" 
+        :src="'https://www.youtube.com/embed/' + currentVideo + '?autoplay=1&&enablejsapi=1'" 
+        allow="autoplay" 
+        frameborder="0"
+      >
+      </iframe>
       <figcaption @click="currentVideo=''" class="bg-gray-800 text-white text-center cursor-pointer">close video</figcaption>
     </figure>
     <div v-for="(link, i) in links" :key="i">
@@ -37,9 +44,22 @@ export default {
       videoPlayerBottom: true
     };
   },
+    // With asyncData, keep-alive doesn't work and pb when deploying  
+/*   async asyncData() {
+    try {
+      const collection = await firedB.collection('links').orderBy('published_at', 'desc').limit(30).get()
+      let links = []
+      collection.forEach(doc => {
+        links.push(doc.data())
+      })
+      return { links }
+    } catch (error) {
+      return { error }
+    }
+  }, */
   methods: {
-    playVideo(url) {
-      this.currentVideo = url;
+    playVideo(videoId) {
+      this.currentVideo = videoId;
     },
     loadLinks() {
       firedB.collection('links')
