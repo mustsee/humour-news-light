@@ -28,7 +28,7 @@ export default {
   },
 
   env: {
-    youtubeApiKey: process.env.YOUTUBE_API_KEY,
+    youtubeApiKey: process.env.NODE_ENV === "production" ? process.env.YOUTUBE_API_KEY_PROD : process.env.YOUTUBE_API_KEY_DEV,
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

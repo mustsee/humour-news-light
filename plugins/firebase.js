@@ -15,5 +15,7 @@ if (!firebase.apps.length) {
 export const authProviders = {
   Google: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
 }
-export const firedB = firebase.firestore()
+
+export const increment = firebase.firestore.FieldValue.increment
+export const fireDb = firebase.firestore()
 export const fireAuth = firebase.auth()

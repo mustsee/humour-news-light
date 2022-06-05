@@ -1,15 +1,20 @@
-import { fireAuth } from '@/plugins/firebase.js'
+import { fireAuth, fireDb } from '@/plugins/firebase.js'
+import Vue from 'vue'
 
 export const strict = false
 
 export const state = () => ({
-  user: null
+  user: null,
+  votes: {}
 })
 
 export const mutations = {
   setUser(state, payload) {
     state.user = payload
-  }
+  },
+  setVotes(state, payload) {
+    state.votes = payload
+  },
 }
 
 export const actions = {
@@ -18,7 +23,16 @@ export const actions = {
       .signOut()
       .then(() => {
         commit('setUser', null)
+        commit('setVotes', {})
       })
       .catch(err => alert(err))
+  },
+  getUserInfos({ commit }, user) {
+    const userRef = fireDb.collection('users').doc(user.email)
+    userRef.get().then(doc => {
+      const data = doc.data();
+      if (data.votes) commit('setVotes', data.votes)
+    })
   }
+  
 }

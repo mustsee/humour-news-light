@@ -6,6 +6,9 @@ export default context => {
   return new Promise((resolve, reject) => {
     fireAuth.onAuthStateChanged(user => {
       store.commit('setUser', user)
+      if (user) {
+        store.dispatch('getUserInfos', user)
+      }
       resolve()
     })
   })
