@@ -64,7 +64,6 @@
 
 <script>
 import { formatDate, timeSince } from "@/helpers";
-import { fireDb, increment } from '/plugins/firebase.js'
 
 export default {
   props: {
@@ -88,39 +87,15 @@ export default {
       return timeSince(formattedDate.getTime());
     },
     handleUpvote(videoId) {
-      const user = this.user
-      if (!user) {
+      if (!this.user) {
+        // goto might be interesting when i'll have other pages as : news / newest
+        // the action might be hide
+        // the how, I don't see the interest yet, might be overkill
         this.$router.push({ name: 'login', params: { goTo: '/', action: 'vote', id: videoId, how: 'up'}})
-      } else {
-        const userRef = fireDb.collection('users').doc(user.email)
-        const videoRef = fireDb.collection('links').doc(videoId);
-        videoRef.update({ points: increment(1)}).then(() => {
-          userRef.get().then(doc => {
-            let data = doc.data()
-            if (data.votes) {
-              if (data.votes[videoId]) delete data.votes[videoId]
-              else data.votes[videoId] = true
-            } else {
-              data.votes = {}
-              data.votes[videoId] = true
-            }
-            userRef.update({ votes: data.votes }).then(() => {
-              this.$store.commit('setVotes', data.votes)
-            }).catch(e => console.log('handleUpvote userRef update', e))
-          })
-        }).catch(e => console.log('handleUpvote videoRef update', e))
-      }
+      } else this.$store.dispatch('upvote', videoId)
     },
     handleUnvote(videoId) {
-      const user = this.user
-      const votes = this.votes
-      delete votes[videoId]
-      const userRef = fireDb.collection('users').doc(user.email)
-      const videoRef = fireDb.collection('links').doc(videoId);
-      userRef.update({ votes }).then(() => {
-        videoRef.update({ points: increment(-1)}).catch(e => console.log('handleUnvote videoRef update', e))
-        this.$store.commit('setVotes', Object.assign({}, votes))
-      }).catch(e => console.log('handleUnvote userRef update', e))
+      this.$store.dispatch('unvote', videoId)
     }
   }
 };

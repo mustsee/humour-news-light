@@ -49,6 +49,11 @@ export default {
       videoPlayerBottom: true
     };
   },
+  computed: {
+    routeParams() {
+      return this.$route.params
+    }
+  },
     // With asyncData, keep-alive doesn't work and pb when deploying  
 /*   async asyncData() {
     try {
@@ -83,7 +88,15 @@ export default {
         });
     },
   },
-  async mounted() {
+  activated() {
+    const { routeParams } = this
+    if (routeParams.action) {
+      if (routeParams.action === 'vote') {
+        this.$store.dispatch('upvote', routeParams.id )
+      }
+    }
+  },
+  mounted() {
     this.loadLinks() // Put this API call to make it SSR
   }
 };
