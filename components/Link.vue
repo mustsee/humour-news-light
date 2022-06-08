@@ -28,7 +28,7 @@
       <div 
         v-if="!votes[link.videoId]"
         class="upvote info-color mx-1 cursor-pointer" 
-        title="vote" 
+        title="upvote" 
         @click="handleUpvote(link.videoId)"
       >
         &#9650;
@@ -52,6 +52,7 @@
         {{ score }} points by admin {{ date }} hour ago
       </div> -->
       <div class="points info-color text-xs leading-none">
+        <span>{{ link.points }} {{ link.points === 1 ? 'point' : 'points'}}</span>
         <span v-if="link.published_at" >{{ getTimeSince(link.published_at) }} ago</span>
         <span v-if="votes[link.videoId]"> |
           <span @click="handleUnvote(link.videoId)" class="cursor-pointer">unvote</span>
