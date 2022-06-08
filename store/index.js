@@ -66,19 +66,23 @@ export const actions = {
     const user = state.user
     const userRef = fireDb.collection('users').doc(user.email)
     const videoRef = fireDb.collection('links').doc(videoId);
-    videoRef.update({ points: increment(1)}).then(() => {
-      userRef.get().then(doc => {
-        let data = doc.data()
-        if (!data.votes) data.votes = {}
-        data.votes[videoId] = true
-        userRef.update({ votes: data.votes }).then(() => {
-          commit('setVotes', data.votes)
+    userRef.get().then(doc => {
+      let data = doc.data()
+      if (!data.votes) data.votes = {}
+      // Use case : when someone votes not logged in
+      // When redirecting to homepage and when upvoting
+      // Make sure the user didn't vote previously for the video !
+      if(data.votes[videoId]) return
+      data.votes[videoId] = true
+      userRef.update({ votes: data.votes }).then(() => {
+        commit('setVotes', data.votes)
+        videoRef.update({ points: increment(1)}).then(() => {
           commit('setVideoPoints', { 'upvote': true, videoId })
-        }).catch(e => console.log('upvote userRef update', e))
-      })
-    }).catch(e => console.log('upvote videoRef update', e))
+        }).catch(e => console.log('upvote videoRef update'))
+      }).catch(e => console.log('upvote userRef update', e))
+    }).catch(e => console.log('upvote userRef get', e))
   },
-  // Même remarque que ci-dessus
+  // Même remarque que pour l'action upvote
   unvote({ commit, state }, videoId) {
     const { user, votes } = state
     delete votes[videoId]
