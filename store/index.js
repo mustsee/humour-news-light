@@ -42,7 +42,7 @@ export const actions = {
   },
   getLinks({ commit }) {
     fireDb.collection('links')
-        .orderBy('published_at', 'desc')
+        .orderBy('score', 'desc')
         .limit(30)
         .get()
         .then((querySnapshot) => {
