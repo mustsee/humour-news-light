@@ -5,7 +5,8 @@ export const strict = false
 export const state = () => ({
   links: [],
   user: null,
-  votes: {}
+  votes: {},
+  isVoting: false,
 })
 
 export const mutations = {
@@ -28,6 +29,9 @@ export const mutations = {
     })
     state.links = updatedLinks
   },
+  setIsVoting(state, payload) {
+    state.isVoting = payload
+  }
 }
 
 export const actions = {
@@ -63,6 +67,8 @@ export const actions = {
   // Ne pas attendre la confirmation firebase pour upvoter
   // Pas assez rapide au niveau de l'UI
   upvote({ commit, state }, videoId) {
+    if (state.isVoting) return
+    commit('setIsVoting', true)
     const user = state.user
     const userRef = fireDb.collection('users').doc(user.email)
     const videoRef = fireDb.collection('links').doc(videoId);
@@ -76,14 +82,25 @@ export const actions = {
       data.votes[videoId] = true
       userRef.update({ votes: data.votes }).then(() => {
         commit('setVotes', data.votes)
+        commit('setIsVoting', false)
         videoRef.update({ points: increment(1)}).then(() => {
           commit('setVideoPoints', { 'upvote': true, videoId })
-        }).catch(e => console.log('upvote videoRef update'))
-      }).catch(e => console.log('upvote userRef update', e))
-    }).catch(e => console.log('upvote userRef get', e))
+        }).catch(e => {
+          commit('setIsVoting', false)
+          console.log('upvote videoRef update', e)
+        })
+      }).catch(e => {
+        commit('setIsVoting', false)
+        console.log('upvote userRef update', e)
+      } )
+    }).catch(e => {
+      commit('setIsVoting', false)
+      console.log('upvote userRef get', e)
+    })
   },
   // Même remarque que pour l'action upvote
   unvote({ commit, state }, videoId) {
+    if (state.isVoting) return
     const { user, votes } = state
     delete votes[videoId]
     const userRef = fireDb.collection('users').doc(user.email)
@@ -91,8 +108,12 @@ export const actions = {
     userRef.update({ votes }).then(() => {
       videoRef.update({ points: increment(-1)}).catch(e => console.log('handleUnvote videoRef update', e))
       commit('setVotes', Object.assign({}, votes))
+      commit('setIsVoting', false)
       commit('setVideoPoints', { 'upvote': false, videoId})
-    }).catch(e => console.log('handleUnvote userRef update', e))
+    }).catch(e => {
+      commit('setIsVoting', false)
+      console.log('handleUnvote userRef update', e)
+    })
   }
   
 }
