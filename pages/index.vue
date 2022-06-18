@@ -2,17 +2,16 @@
   <div class="main">
     <figure 
       v-if="this.currentVideo" 
-      :class="`fixed right-0 ${videoPlayerBottom ? 'bottom-0' : 'top-0'}`"
+      :class="`fixed right-0 md:right-5% 2xl:right-10% ${videoPlayerBottom ? 'bottom-5% 2xl:bottom-10%' : 'top-5% 2xl:top-10%'}`"
     >
       <figcaption 
         @click="videoPlayerBottom = !videoPlayerBottom" 
-        class="bg-gray-600 text-white cursor-pointer h-8 flex items-center justify-center rounded-t-lg"
+        class="bg-gray-500 text-white cursor-pointer h-8 flex items-center justify-center rounded-t-lg"
       >
         move window to {{ videoPlayerBottom ? 'top' : 'bottom' }}
       </figcaption>
-      <iframe 
-        width="356" 
-        height="200" 
+      <iframe
+        class="h-200 w-356 lg:h-68 lg:w-120"
         :src="'https://www.youtube.com/embed/' + currentVideo + '?autoplay=1&&enablejsapi=1'" 
         allow="autoplay" 
         frameborder="0"
@@ -20,9 +19,19 @@
       </iframe>
       <figcaption 
         @click="currentVideo=''" 
-        class="bg-gray-600 text-white cursor-pointer h-8 flex items-center justify-center rounded-b-lg">
+        class="bg-gray-500 text-white cursor-pointer h-8 flex items-center justify-center rounded-b-lg">
         close video
       </figcaption>
+     <!--  <figcaption  
+        style="background-color: #d7d6cf"
+        class="mt-6 p-6 w-2/4 text-grey cursor-pointer flex items-center justify-between rounded-lg">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13 10h-3v3h-2v-3h-3v-2h3v-3h2v3h3v2zm8.172 14l-7.387-7.387c-1.388.874-3.024 1.387-4.785 1.387-4.971 0-9-4.029-9-9s4.029-9 9-9 9 4.029 9 9c0 1.761-.514 3.398-1.387 4.785l7.387 7.387-2.828 2.828zm-12.172-8c3.859 0 7-3.14 7-7s-3.141-7-7-7-7 3.14-7 7 3.141 7 7 7z"/></svg>
+        </div>
+        <div @click="currentVideo=''">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z"/></svg>
+        </div>
+      </figcaption> -->
     </figure>
     <div v-for="(link, i) in links" :key="i">
       <Link 
